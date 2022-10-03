@@ -1,24 +1,24 @@
 from dataclasses import dataclass, asdict
-from typing import ClassVar, List, Tuple, Dict, Type
+from typing import ClassVar
+
 
 @dataclass
 class InfoMessage:
     """Информационное сообщение о тренировке."""
-    
     training_type: str
     duration: float
     distance: float
     speed: float
     calories: float
     MESSAGE: ClassVar[str] = ('Тип тренировки: {training_type}; '
-                             'Длительность: {duration:.3f} ч.; '
-                             'Дистанция: {distance:.3f} км; '
-                             'Ср. скорость: {speed:.3f} км/ч; '
-                             'Потрачено ккал: {calories:.3f}.')
+                              'Длительность: {duration:.3f} ч.; '
+                              'Дистанция: {distance:.3f} км; '
+                              'Ср. скорость: {speed:.3f} км/ч; '
+                              'Потрачено ккал: {calories:.3f}.')
 
-    def get_message(self) -> str:           
-        return self.MESSAGE.format(**asdict(self))       
-         
+    def get_message(self) -> str:        
+        return self.MESSAGE.format(**asdict(self))
+    
 
 class Training:
     """Базовый класс тренировки."""
@@ -36,7 +36,7 @@ class Training:
     def get_distance(self) -> float:
         """Получить дистанцию в км."""
         distance: float = self.action * self.LEN_STEP / self.M_IN_KM
-        return distance 
+        return distance
 
     def get_mean_speed(self) -> float:
         """Получить среднюю скорость движения."""
@@ -69,13 +69,14 @@ class Running(Training):
         super().__init__(action, duration, weight)
 
     def get_spent_calories(self) -> float:
-        spent_calories = ((self.COEF_CALORIE_1 
+        spent_calories = ((self.COEF_CALORIE_1
                           * self.get_mean_speed()
-                          - self.COEF_CALORIE_2) 
+                          - self.COEF_CALORIE_2)
                           * self.weight
-                          / self.M_IN_KM 
+                          / self.M_IN_KM
                           * (self.duration * 60))
-        return spent_calories 
+        return spent_calories
+
 
 class SportsWalking(Training):
     """Тренировка: спортивная ходьба."""
@@ -98,6 +99,7 @@ class SportsWalking(Training):
                           * self.weight)
                           * (self.duration * 60))
         return spent_calories
+
 
 class Swimming(Training):
     """Тренировка: плавание."""
