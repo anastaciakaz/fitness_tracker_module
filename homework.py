@@ -16,9 +16,9 @@ class InfoMessage:
                               'Ср. скорость: {speed:.3f} км/ч; '
                               'Потрачено ккал: {calories:.3f}.')
 
-    def get_message(self) -> str:        
+    def get_message(self) -> str:
         return self.MESSAGE.format(**asdict(self))
-    
+
 
 class Training:
     """Базовый класс тренировки."""
@@ -124,11 +124,11 @@ class Swimming(Training):
                       / self.duration)
         return swim_speed
 
-    def get_spent_calories (self) -> float:
+    def get_spent_calories(self) -> float:
         swimming_calories = ((self.get_mean_speed()
-                              + self.COEF_CALORIE_5)
-                              * self.COEF_CALORIE_6
-                              * self.weight)
+                             + self.COEF_CALORIE_5)
+                             * self.COEF_CALORIE_6
+                             * self.weight)
         return swimming_calories
 
 
@@ -139,8 +139,8 @@ def read_package(workout_type: str, data: list) -> Training:
                      'WLK': SportsWalking}
     if workout_type not in dict_training:
         raise ValueError('Такой тренировки нет.')
-    return dict_training[workout_type](*data) 
-    
+    return dict_training[workout_type](*data)
+
 
 def main(training: Training) -> None:
     """Главная функция."""
@@ -158,4 +158,3 @@ if __name__ == '__main__':
     for workout_type, data in packages:
         training = read_package(workout_type, data)
         main(training)
-
