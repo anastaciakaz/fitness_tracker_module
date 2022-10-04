@@ -38,8 +38,7 @@ class Training:
 
     def get_distance(self) -> float:
         """Получить дистанцию в км."""
-        distance: float = self.action * self.LEN_STEP / self.M_IN_KM
-        return distance
+        return self.action * self.LEN_STEP / self.M_IN_KM
 
     def get_mean_speed(self) -> float:
         """Получить среднюю скорость движения."""
@@ -63,8 +62,8 @@ class Training:
 class Running(Training):
     """Тренировка: бег."""
 
-    COEF_CALORIE_1: float = 18
-    COEF_CALORIE_2: float = 20
+    COEF_CALORIE_1: ClassVar[float] = 18
+    COEF_CALORIE_2: ClassVar[float] = 20
 
     def __init__(self,
                  action: int,
@@ -85,8 +84,9 @@ class Running(Training):
 class SportsWalking(Training):
     """Тренировка: спортивная ходьба."""
 
-    COEF_CALORIE_3: float = 0.035
-    COEF_CALORIE_4: float = 0.029
+    COEF_CALORIE_3: ClassVar[float] = 0.035
+    EXPON: ClassVar[float] = 2
+    COEF_CALORIE_4: ClassVar[float] = 0.029
 
     def __init__(self,
                  action: int,
@@ -99,7 +99,7 @@ class SportsWalking(Training):
     def get_spent_calories(self) -> float:
         spent_calories = ((self.COEF_CALORIE_3
                           * self.weight
-                          + (self.get_mean_speed()**2 // self.height)
+                          + (self.get_mean_speed()**self.EXPON // self.height)
                           * self.COEF_CALORIE_4
                           * self.weight)
                           * (self.duration * self.min_in_hour))
@@ -110,8 +110,8 @@ class Swimming(Training):
     """Тренировка: плавание."""
 
     LEN_STEP: ClassVar[float] = 1.38
-    COEF_CALORIE_5: float = 1.1
-    COEF_CALORIE_6: float = 2
+    COEF_CALORIE_5: ClassVar[float] = 1.1
+    COEF_CALORIE_6: ClassVar[float] = 2
 
     def __init__(self,
                  action: int,
@@ -143,9 +143,10 @@ def read_package(workout_type: str, data: list) -> Training:
     dict_training: Dict[str, Type[Training]] = {'SWM': Swimming,
                                                 'RUN': Running,
                                                 'WLK': SportsWalking}
+    dict_training_j = ', '.join(dict_training.keys())
     if workout_type not in dict_training:
         raise ValueError(f'Тренировки {workout_type} не существует.'
-                         f'Достуные тренировки: {dict_training.values()}.')
+                         f'Достуные тренировки: {dict_training_j}.')
     return dict_training[workout_type](*data)
 
 
