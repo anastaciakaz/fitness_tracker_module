@@ -18,4 +18,29 @@ Information in the message:
 - speed,
 - calories.
 
+# Instructions for working with the project
+
+## Clone this repository to your PC
+
+``` git@github.com:anastaciakaz/fitness_tracker_module.git ```
+
+## Open the repository in your IDE and in terminal create and activate virtual environment:
+
+### For Windows
+
+``` python -m venv venv ```
+
+``` source venv/Scripts/activate ```
+
+
+### For MacOS
+
+``` python3 -m venv venv ```
+
+``` source venv/bin/activate ```
+
+## Install requirements
+
+``` pip install -r requirements.txt ```
+
 
